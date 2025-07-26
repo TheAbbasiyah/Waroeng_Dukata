@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Take Away - Waroeng Dukata</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #fffbe6, #ffefd5);
+      padding: 30px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #d2691e;
+      margin-bottom: 30px;
+    }
+
+    form {
+      max-width: 700px;
+      margin: auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .menu-item {
+      margin-bottom: 15px;
+    }
+
+    .menu-item input[type="number"] {
+      width: 80px;
+      margin-left: 10px;
+      display: none;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      background-color: #ff6600;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      background-color: #e05500;
+    }
+
+    #total {
+      font-size: 18px;
+      font-weight: bold;
+      color: #006400;
+      margin-top: 20px;
+    }
+
+    .menu-label {
+      font-weight: normal;
+    }
+
+    #qris-box {
+      margin-top: 20px;
+      display: none;
+      text-align: center;
+    }
+
+    #qris-box img {
+      max-width: 300px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    #warning {
+      color: red;
+      font-weight: bold;
+      display: none;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Form Pemesanan Take Away</h1>
+
+  <form id="orderForm" onsubmit="return sendToWhatsApp()">
+    <div class="form-group">
+      <label>Nama Lengkap:</label>
+      <input type="text" name="nama" id="nama" required>
+    </div>
+
+    <div class="form-group">
+      <label>Nama Kelas:</label>
+      <input type="text" name="kelas" id="kelas" required>
+    </div>
+
+    <div class="form-group">
+      <label>Nomor HP:</label>
+      <input type="tel" name="nohp" id="nohp" required placeholder="08xxxxxxxxxx">
+    </div>
+
+    <div id="warning">Harap isi semua data dan pilih minimal satu menu.</div>
+
+    <div class="form-group">
+      <label>Pilih Menu:</label>
+      <!-- Menu items will be filled in by JavaScript -->
+    </div>
+
+    <div id="total">Total: Rp0</div>
+
+    <div class="form-group">
+      <label>Metode Pembayaran:</label>
+      <select name="pembayaran" id="payment-method" required onchange="toggleQris()">
+        <option value="">-- Pilih Pembayaran --</option>
+        <option value="Qris">Qris</option>
+        <option value="Cash">Cash</option>
+      </select>
+    </div>
+
+    <div id="qris-box">
+      <p>Silakan scan QR berikut untuk melakukan pembayaran:</p>
+      <img src="img/qris2.jpg" alt="QRIS The Abbasiyah">
+    </div>
+
+    <button type="submit" class="btn">Kirim Pesanan</button>
+    <a href="index.html" class="btn" style="background-color:#999; margin-top: 15px; display: inline-block; text-align: center;">&larr; Kembali ke Halaman Utama</a>
+    <p>Masukka Data Yang Anda Pesan Tadi Di Chat Whatsapp</p>
+  </form>
+
+  <script>
+    const menus = [
+      { id: "m1", name: "Risol Mayo", price: 3500 },
+      { id: "m2", name: "Tahu Isi", price: 2500 },
+      { id: "m3", name: "Piscok Mini", price: 2000 },
+      { id: "m4", name: "Kebab Mini", price: 4000 },
+      { id: "m5", name: "Pizza Mini", price: 3000 },
+      { id: "m6", name: "Bolen", price: 3000 },
+      { id: "m7", name: "Lumpia Makaroni", price: 3000 },
+      { id: "m8", name: "Pie Coklat", price: 3000 },
+      { id: "m9", name: "Bakpao Coklat", price: 2000 },
+    ];
+
+    const formGroup = document.querySelectorAll(".form-group")[3];
+
+    menus.forEach(menu => {
+      const div = document.createElement("div");
+      div.className = "menu-item";
+      div.innerHTML = `
+        <input type="checkbox" id="${menu.id}" value="${menu.price}" onchange="toggleQty(this)">
+        <label class="menu-label" for="${menu.id}">${menu.name} - Rp${menu.price.toLocaleString("id-ID")}</label>
+        <input type="number" min="1" placeholder="Qty" data-price="${menu.price}">
+      `;
+      formGroup.appendChild(div);
+    });
+
+    const qtyInputs = document.querySelectorAll('.menu-item input[type="number"]');
+    const totalDisplay = document.getElementById("total");
+    const paymentSelect = document.getElementById("payment-method");
+    const qrisBox = document.getElementById("qris-box");
+    const warningBox = document.getElementById("warning");
+
+    function toggleQty(checkbox) {
+      const qtyInput = checkbox.parentElement.querySelector('input[type="number"]');
+      if (checkbox.checked) {
+        qtyInput.style.display = 'inline-block';
+        qtyInput.required = true;
+      } else {
+        qtyInput.style.display = 'none';
+        qtyInput.required = false;
+        qtyInput.value = '';
+      }
+      updateTotal();
+    }
+
+    qtyInputs.forEach(input => {
+      input.addEventListener("input", updateTotal);
+    });
+
+    function updateTotal() {
+      let total = 0;
+      qtyInputs.forEach(input => {
+        if (input.style.display !== "none" && input.value) {
+          const price = parseInt(input.dataset.price);
+          const qty = parseInt(input.value);
+          total += price * qty;
+        }
+      });
+      totalDisplay.textContent = "Total: Rp" + total.toLocaleString("id-ID");
+    }
+
+    function toggleQris() {
+      qrisBox.style.display = paymentSelect.value === "Qris" ? "block" : "none";
+    }
+
+    function sendToWhatsApp() {
+      const nama = document.getElementById("nama").value.trim();
+      const kelas = document.getElementById("kelas").value.trim();
+      const nohp = document.getElementById("nohp").value.trim();
+      const pembayaran = paymentSelect.value;
+
+      let pesan = [];
+      let total = 0;
+
+      qtyInputs.forEach(input => {
+        const checkbox = input.parentElement.querySelector('input[type="checkbox"]');
+        if (checkbox.checked && input.value) {
+          const menu = checkbox.nextElementSibling.innerText.split(" - ")[0];
+          const qty = parseInt(input.value);
+          const price = parseInt(input.dataset.price);
+          total += price * qty;
+          pesan.push(`- ${menu} - Rp${price.toLocaleString("id-ID")} x ${qty}`);
+        }
+      });
+
+      if (!nama || !kelas || !nohp || !pembayaran || pesan.length === 0) {
+        warningBox.style.display = "block";
+        return false;
+      }
+
+      warningBox.style.display = "none";
+      let message = `Halo! Saya ingin memesan:%0ANama: ${nama}%0AKelas: ${kelas}%0ANo HP: ${nohp}%0AMetode Pembayaran: ${pembayaran}%0APesanan:%0A${pesan.join("%0A")}%0ATotal: Rp${total.toLocaleString("id-ID")}`;
+      const waURL = `https://api.whatsapp.com/send?phone=6283175894747&text=${message}`;
+
+      window.open(waURL, '_blank');
+      return false;
+    }
+  </script>
+</body>
+</html>

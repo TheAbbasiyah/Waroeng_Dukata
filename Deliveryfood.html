@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Delivery Food - Waroeng Dukata</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #fffbe6, #ffefd5);
+      padding: 30px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #d2691e;
+      margin-bottom: 30px;
+    }
+
+    form {
+      max-width: 700px;
+      margin: auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .menu-item {
+      margin-bottom: 15px;
+    }
+
+    .menu-item input[type="number"] {
+      width: 80px;
+      margin-left: 10px;
+      display: none;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      background-color: #ff6600;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      background-color: #e05500;
+    }
+
+    #total {
+      font-size: 18px;
+      font-weight: bold;
+      color: #006400;
+      margin-top: 20px;
+    }
+
+    .menu-label {
+      font-weight: normal;
+    }
+
+    #qris-img {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #qris-img img {
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Form Pemesanan Delivery Food</h1>
+
+  <form onsubmit="return false;">
+    <div class="form-group">
+      <label>Nama Lengkap:</label>
+      <input type="text" name="nama" required>
+    </div>
+
+    <div class="form-group">
+      <label>Nama Kelas:</label>
+      <input type="text" name="kelas" required>
+    </div>
+
+    <div class="form-group">
+      <label>Nomor HP:</label>
+      <input type="tel" name="nohp" required placeholder="08xxxxxxxxxx">
+    </div>
+
+    <div class="form-group">
+      <label>Pilih Menu:</label>
+      <!-- Menu items -->
+      <div class="menu-item">
+        <input type="checkbox" id="m1" value="3500" onchange="toggleQty(this)">
+        <label class="menu-label" for="m1">Risol Mayo - Rp3.500</label>
+        <input type="number" min="1" placeholder="Qty" data-price="3500">
+      </div>
+
+      <div class="menu-item">
+        <input type="checkbox" id="m2" value="2500" onchange="toggleQty(this)">
+        <label class="menu-label" for="m2">Tahu Isi - Rp2.500</label>
+        <input type="number" min="1" placeholder="Qty" data-price="2500">
+      </div>
+
+      <div class="menu-item">
+        <input type="checkbox" id="m3" value="2000" onchange="toggleQty(this)">
+        <label class="menu-label" for="m3">Piscok Mini - Rp2.000</label>
+        <input type="number" min="1" placeholder="Qty" data-price="2000">
+      </div>
+
+      <div class="menu-item">
+        <input type="checkbox" id="m4" value="4000" onchange="toggleQty(this)">
+        <label class="menu-label" for="m4">Kebab Mini - Rp3.000</label>
+        <input type="number" min="1" placeholder="Qty" data-price="4000">
+      </div>
+
+      <div class="menu-item">
+        <input type="checkbox" id="m5" value="3000" onchange="toggleQty(this)">
+        <label class="menu-label" for="m5">Pizza Mini - Rp3.000</label>
+        <input type="number" min="1" placeholder="Qty" data-price="3000">
+      </div>
+
+      <div class="menu-item">
+        <input type="checkbox" id="m6" value="3000" onchange="toggleQty(this)">
+        <label class="menu-label" for="m6">Bolen - Rp2.500</label>
+        <input type="number" min="1" placeholder="Qty" data-price="3000">
+      </div>
+
+      <div class="menu-item">
+        <input type="checkbox" id="m7" value="3000" onchange="toggleQty(this)">
+        <label class="menu-label" for="m7">Lumpia Makaroni - Rp2.000</label>
+        <input type="number" min="1" placeholder="Qty" data-price="3000">
+      </div>
+
+      <div class="menu-item">
+        <input type="checkbox" id="m8" value="3000" onchange="toggleQty(this)">
+        <label class="menu-label" for="m8">Pie Coklat - Rp3.000</label>
+        <input type="number" min="1" placeholder="Qty" data-price="3000">
+      </div>
+
+      <div class="menu-item">
+        <input type="checkbox" id="m9" value="2000" onchange="toggleQty(this)">
+        <label class="menu-label" for="m9">Bakpao Coklat - Rp2.000</label>
+        <input type="number" min="1" placeholder="Qty" data-price="2000">
+      </div>
+    </div>
+
+    <div id="total">Total: Rp0</div>
+
+    <div class="form-group">
+      <label>Metode Pembayaran:</label>
+      <select name="pembayaran" required onchange="showQris(this.value)">
+        <option value="">-- Pilih Pembayaran --</option>
+        <option value="Qris">Qris</option>
+        
+      </select>
+    </div>
+
+    <div id="qris-img">
+      <p>Silakan scan QRIS berikut untuk membayar sesuai total pesanan:</p>
+      <img src="img/qris2.jpg" alt="QRIS Pembayaran">
+    </div>
+
+    <button type="button" class="btn" onclick="kirimKeWhatsApp()">Kirim Pesanan via WhatsApp</button>
+      <a href="index.html" class="btn" style="background-color:#999; margin-top: 15px; display: inline-block; text-align: center;">&larr; Kembali ke Halaman Utama</a>
+    <p>Masukka Data Yang Anda Pesan Tadi Di Chat Whatsapp</p>
+    <p id="peringatan" style="color: red; display: none;">Masukkan data yang ingin Anda pesan sebelum mengirim ke WhatsApp!</p>
+
+  
+  </form>
+
+  <script>
+    const qtyInputs = document.querySelectorAll('.menu-item input[type="number"]');
+    const totalDisplay = document.getElementById("total");
+
+    function toggleQty(checkbox) {
+      const qtyInput = checkbox.parentElement.querySelector('input[type="number"]');
+      if (checkbox.checked) {
+        qtyInput.style.display = 'inline-block';
+        qtyInput.required = true;
+      } else {
+        qtyInput.style.display = 'none';
+        qtyInput.required = false;
+        qtyInput.value = '';
+      }
+      updateTotal();
+    }
+
+    qtyInputs.forEach(input => {
+      input.addEventListener("input", updateTotal);
+    });
+
+    function updateTotal() {
+      let total = 0;
+      qtyInputs.forEach(input => {
+        if (input.style.display !== "none" && input.value) {
+          const price = parseInt(input.dataset.price);
+          const qty = parseInt(input.value);
+          total += price * qty;
+        }
+      });
+      totalDisplay.textContent = "Total: Rp" + total.toLocaleString("id-ID");
+    }
+
+    function showQris(value) {
+      const qrisImg = document.getElementById("qris-img");
+      qrisImg.style.display = value === "Qris" ? "block" : "none";
+    }
+
+    function kirimKeWhatsApp() {
+      const nama = document.querySelector('input[name="nama"]').value.trim();
+      const kelas = document.querySelector('input[name="kelas"]').value.trim();
+      const nohp = document.querySelector('input[name="nohp"]').value.trim();
+      const pembayaran = document.querySelector('select[name="pembayaran"]').value;
+      const total = document.getElementById("total").textContent;
+      const peringatan = document.getElementById("peringatan");
+
+      let pesanMenu = "";
+      const menuItems = document.querySelectorAll(".menu-item");
+      menuItems.forEach(item => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        const qtyInput = item.querySelector('input[type="number"]');
+        const label = item.querySelector("label").textContent;
+        if (checkbox.checked && qtyInput.value) {
+          pesanMenu += `- ${label.trim()} x ${qtyInput.value}\n`;
+        }
+      });
+
+      if (!nama || !kelas || !nohp || !pembayaran || !pesanMenu) {
+        peringatan.style.display = 'block';
+        return;
+      } else {
+        peringatan.style.display = 'none';
+      }
+
+      const pesan = `Halo! Saya ingin memesan:\n\n` +
+        `Nama: ${nama}\n` +
+        `Kelas: ${kelas}\n` +
+        `No HP: ${nohp}\n` +
+        `Metode Pembayaran: ${pembayaran}\n\n` +
+        `Pesanan:\n${pesanMenu}\n` +
+        `${total}`;
+
+      const nomorTujuan = "6283175894747";
+      const url = `https://wa.me/${nomorTujuan}?text=${encodeURIComponent(pesan)}`;
+      window.open(url, "_blank");
+    }
+  </script>
+</body>
+</html>
