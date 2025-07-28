@@ -82,7 +82,7 @@
       font-weight: normal;
     }
 
-    #qris-img {
+    #qris-img, #cash-info {
       display: none;
       margin-top: 20px;
       text-align: center;
@@ -118,84 +118,77 @@
       <label>Pilih Menu:</label>
       <!-- Menu items -->
       <div class="menu-item">
-        <input type="checkbox" id="m1" value="3500" onchange="toggleQty(this)">
+        <input type="checkbox" id="m1" onchange="toggleQty(this)">
         <label class="menu-label" for="m1">Risol Mayo - Rp3.500</label>
         <input type="number" min="1" placeholder="Qty" data-price="3500">
       </div>
 
       <div class="menu-item">
-        <input type="checkbox" id="m2" value="3000" onchange="toggleQty(this)">
+        <input type="checkbox" id="m2" onchange="toggleQty(this)">
         <label class="menu-label" for="m2">Tahu Isi - Rp3.000</label>
         <input type="number" min="1" placeholder="Qty" data-price="3000">
       </div>
 
       <div class="menu-item">
-        <input type="checkbox" id="m3" value="3000" onchange="toggleQty(this)">
+        <input type="checkbox" id="m3" onchange="toggleQty(this)">
         <label class="menu-label" for="m3">Kebab Mini - Rp3.000</label>
         <input type="number" min="1" placeholder="Qty" data-price="3000">
       </div>
 
       <div class="menu-item">
-        <input type="checkbox" id="m4" value="3000" onchange="toggleQty(this)">
+        <input type="checkbox" id="m4" onchange="toggleQty(this)">
         <label class="menu-label" for="m4">Pizza Mini - Rp3.000</label>
         <input type="number" min="1" placeholder="Qty" data-price="3000">
       </div>
 
       <div class="menu-item">
-        <input type="checkbox" id="m5" value="3000" onchange="toggleQty(this)">
+        <input type="checkbox" id="m5" onchange="toggleQty(this)">
         <label class="menu-label" for="m5">Bolen - Rp2.500</label>
         <input type="number" min="1" placeholder="Qty" data-price="2500">
       </div>
 
       <div class="menu-item">
-        <input type="checkbox" id="m6" value="2500" onchange="toggleQty(this)">
+        <input type="checkbox" id="m6" onchange="toggleQty(this)">
         <label class="menu-label" for="m6">Lumpia Makaroni - Rp2.500</label>
         <input type="number" min="1" placeholder="Qty" data-price="2500">
       </div>
 
       <div class="menu-item">
-        <input type="checkbox" id="m7" value="3500" onchange="toggleQty(this)">
+        <input type="checkbox" id="m7" onchange="toggleQty(this)">
         <label class="menu-label" for="m7">Pie Coklat - Rp3.500</label>
         <input type="number" min="1" placeholder="Qty" data-price="3500">
       </div>
 
       <div class="menu-item">
-        <input type="checkbox" id="m8" value="2000" onchange="toggleQty(this)">
+        <input type="checkbox" id="m8" onchange="toggleQty(this)">
         <label class="menu-label" for="m8">Bakpao Coklat - Rp2.000</label>
         <input type="number" min="1" placeholder="Qty" data-price="2000">
       </div>
-    </div>
 
-    <div class="menu-item">
-        <input type="checkbox" id="m9" value="3500" onchange="toggleQty(this)">
+      <div class="menu-item">
+        <input type="checkbox" id="m9" onchange="toggleQty(this)">
         <label class="menu-label" for="m9">Ayam Goreng Chili Oil - Rp3.500</label>
         <input type="number" min="1" placeholder="Qty" data-price="3500">
       </div>
-    </div>
 
-    <div class="menu-item">
-        <input type="checkbox" id="m10" value="3500" onchange="toggleQty(this)">
+      <div class="menu-item">
+        <input type="checkbox" id="m10" onchange="toggleQty(this)">
         <label class="menu-label" for="m10">Ayam Goreng Barbeque - Rp3.500</label>
         <input type="number" min="1" placeholder="Qty" data-price="3500">
       </div>
-    </div>
 
-    <div class="menu-item">
-        <input type="checkbox" id="m11" value="2500" onchange="toggleQty(this)">
+      <div class="menu-item">
+        <input type="checkbox" id="m11" onchange="toggleQty(this)">
         <label class="menu-label" for="m11">Gabin - Rp2.500</label>
         <input type="number" min="1" placeholder="Qty" data-price="2500">
       </div>
-    </div>
 
-    <div class="menu-item">
-        <input type="checkbox" id="m12" value="3500" onchange="toggleQty(this)">
+      <div class="menu-item">
+        <input type="checkbox" id="m12" onchange="toggleQty(this)">
         <label class="menu-label" for="m12">Tahu Goreng - Rp3.500</label>
         <input type="number" min="1" placeholder="Qty" data-price="3500">
       </div>
     </div>
-
-
-
 
     <div id="total">Total: Rp0</div>
 
@@ -204,7 +197,7 @@
       <select name="pembayaran" required onchange="showQris(this.value)">
         <option value="">-- Pilih Pembayaran --</option>
         <option value="Qris">Qris</option>
-        
+        <option value="Cash">Cash</option>
       </select>
     </div>
 
@@ -213,12 +206,13 @@
       <img src="img/qris2.jpg" alt="QRIS Pembayaran">
     </div>
 
-    <button type="button" class="btn" onclick="kirimKeWhatsApp()">Kirim Pesanan via WhatsApp</button>
-      <a href="index.html" class="btn" style="background-color:#999; margin-top: 15px; display: inline-block; text-align: center;">&larr; Kembali ke Halaman Utama</a>
-    <p>Masukka Data Yang Anda Pesan Tadi Di Chat Whatsapp</p>
-    <p id="peringatan" style="color: red; display: none;">Masukkan data yang ingin Anda pesan sebelum mengirim ke WhatsApp!</p>
+    <p id="cash-info" style="color: green;">Silakan siapkan uang tunai sesuai total pesanan.</p>
 
-  
+    <button type="button" class="btn" onclick="kirimKeWhatsApp()">Kirim Pesanan via WhatsApp</button>
+    <a href="index.html" class="btn" style="background-color:#999; margin-top: 15px; display: inline-block;">&larr; Kembali ke Halaman Utama</a>
+
+    <p>Masukkan Data Yang Anda Pesan Tadi Di Chat WhatsApp</p>
+    <p id="peringatan" style="color: red; display: none;">Masukkan data yang ingin Anda pesan sebelum mengirim ke WhatsApp!</p>
   </form>
 
   <script>
@@ -256,7 +250,18 @@
 
     function showQris(value) {
       const qrisImg = document.getElementById("qris-img");
-      qrisImg.style.display = value === "Qris" ? "block" : "none";
+      const cashInfo = document.getElementById("cash-info");
+
+      if (value === "Qris") {
+        qrisImg.style.display = "block";
+        cashInfo.style.display = "none";
+      } else if (value === "Cash") {
+        qrisImg.style.display = "none";
+        cashInfo.style.display = "block";
+      } else {
+        qrisImg.style.display = "none";
+        cashInfo.style.display = "none";
+      }
     }
 
     function kirimKeWhatsApp() {
@@ -300,3 +305,4 @@
   </script>
 </body>
 </html>
+
