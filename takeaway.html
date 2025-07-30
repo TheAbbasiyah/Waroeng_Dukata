@@ -244,7 +244,7 @@
       }
 
       warningBox.style.display = "none";
-      let message = `Halo! Saya ingin memesan:%0ANama: ${nama}%0AKelas: ${kelas}%0ANo HP: ${nohp}%0AMetode Pembayaran: ${pembayaran}%0AJenis Pesanan: Delivery%0APesanan:%0A${pesan.join("%0A")}%0ATotal: Rp${total.toLocaleString("id-ID")}`;
+      let message = `Halo! Saya ingin memesan:%0ANama: ${nama}%0AKelas: ${kelas}%0ANo HP: ${nohp}%0AMetode Pembayaran: ${pembayaran}%0AJenis Pesanan: Take Away%0APesanan:%0A${pesan.join("%0A")}%0ATotal: Rp${total.toLocaleString("id-ID")}`;
       const waURL = `https://api.whatsapp.com/send?phone=6283175894747&text=${message}`;
 
       window.open(waURL, '_blank');
