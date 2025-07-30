@@ -293,13 +293,14 @@
         peringatan.style.display = 'none';
       }
 
-      const pesan = `Halo! Saya ingin memesan:\n\n` +
-        `Nama: ${nama}\n` +
-        `Kelas: ${kelas}\n` +
-        `No HP: ${nohp}\n` +
-        `Metode Pembayaran: ${pembayaran}\n\n` +
-        `Pesanan:\n${pesanMenu}\n` +
-        `${total}`;
+      const pesan = `Halo! Saya ingin memesan delivery:\n\n` +
+  `Nama: ${nama}\n` +
+  `Kelas: ${kelas}\n` +
+  `No HP: ${nohp}\n` +
+  `Metode Pembayaran: ${pembayaran}\n\n` +
+  `Pesanan:\n${pesanMenu}\n` +
+  `${total}`;
+
 
       const nomorTujuan = "6283175894747";
       const url = `https://wa.me/${nomorTujuan}?text=${encodeURIComponent(pesan)}`;
